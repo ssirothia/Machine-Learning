@@ -1,0 +1,117 @@
+Linear regression relies on a set of statistical assumptions about the data generating process.
+Important nuance: some assumptions are required for unbiased estimates, others for valid inference (confidence intervals / p-values).
+
+Here is the canonical list used in interviews and real modeling work.
+
+✅ 1) Linearity
+
+The relationship between predictors 
+𝑋 X and outcome 
+𝑦 y is linear in parameters.
+
+This does not mean variables themselves must be linear; transformations (log, polynomial) are fine as long as coefficients enter linearly.
+
+Violation looks like:
+
+curved residual patterns
+
+systematic under/over prediction
+
+Fix:
+
+feature engineering, splines, interactions, nonlinear models.
+
+✅ 2) Independence of errors
+
+Residuals should not be correlated with each other.
+
+Common issue in:
+
+time series
+
+panel data
+
+clustered observations
+
+Violation leads to:
+
+biased standard errors → wrong significance.
+
+Detect:
+
+Durbin–Watson, ACF plots.
+
+Fix:
+
+mixed models, GLS, cluster-robust SE, time-series models.
+
+✅ 3) Homoscedasticity (constant variance)
+
+Error variance should be constant across fitted values.
+
+Violation:
+
+funnel-shaped residuals.
+
+Impact:
+
+coefficients still unbiased, but SE and p-values unreliable.
+
+Fix:
+
+log transform
+
+weighted least squares
+
+robust standard errors.
+
+✅ 4) No perfect multicollinearity
+
+Predictors cannot be exact linear combinations of others.
+
+Otherwise:
+
+X not invertible → model cannot estimate.
+
+Detect:
+
+VIF, rank deficiency.
+
+Fix:
+
+drop or combine variables.
+
+✅ 5) Exogeneity / Zero conditional mean
+
+Errors must be unrelated to predictors.
+
+E(ϵ∣X)=0
+
+This is the most important assumption.
+
+If violated → coefficients are biased.
+
+Causes:
+
+omitted variables
+
+simultaneity
+
+measurement error
+
+selection bias
+
+Fix:
+
+instrumental variables, causal design, add controls.
+
+✅ 6) Normality of errors (needed for inference)
+
+Residuals should be normally distributed.
+
+Important:
+
+NOT required for unbiased coefficients.
+Needed for accurate hypothesis tests in small samples.
+
+With large N → CLT helps.
